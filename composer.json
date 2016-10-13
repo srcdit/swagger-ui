@@ -20,5 +20,15 @@
             "name": "Mohsen Azimi",
             "email": "me@azimi.me"
         }
-    ]
+    ],
+    "require" : {
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "gulp"
+        ]
+    }
 }
