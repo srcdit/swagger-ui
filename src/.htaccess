@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "apidocs.bomler.com"
+AuthUserFile /app/dist/.htpasswd
+Require valid-user
