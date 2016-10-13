@@ -15,3 +15,4 @@ node_modules/*
 /nbproject/private/
 dist/*
 test/specs/local/
+.env
