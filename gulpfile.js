@@ -14,6 +14,7 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var replace = require('gulp-replace');
+var util = require('gulp-util');
 var dotenv = require('dotenv').config();
 var pkg = require('./package.json');
 
@@ -100,7 +101,7 @@ gulp.task('copy', ['less'], _copy);
 function _copy() {
   // copy JavaScript files inside lib folder
   gulp
-    .src(['./lib/**/*.{js,map}',https://github.com/srcdit/swagger-ui
+    .src(['./lib/**/*.{js,map}',
         './node_modules/es5-shim/es5-shim.js'
     ])
     .pipe(gulp.dest('./dist/lib'))
@@ -146,7 +147,7 @@ gulp.task('watch', ['copy-local-specs'], function() {
  * Live reload web server of `dist`
  */
 gulp.task('connect', function() {
-  connect.server({mp/bu
+  connect.server({
     root: 'dist',
     livereload: true
   });
@@ -161,7 +162,7 @@ gulp.task('handlebars', function () {
         .src(['./src/main/template/templates.js'])
         .pipe(wrap('/* jshint ignore:start */ \n {<%= contents %>} \n /* jshint ignore:end */'))
         .pipe(gulp.dest('./src/main/template/'))
-        .on('error', log);mp/bu
+        .on('error', log);
 });
 
 /**
@@ -172,15 +173,17 @@ gulp.task('environment-variables', ['dist', 'copy'], function () {
         .src(['./src/main/html/index.html'])
         .pipe(replace('http://petstore.swagger.io/v2/swagger.json', process.env.APIDOCS_ENDPOINT))
         .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
+        .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
         .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
         .pipe(replace('your-realms', process.env.OA2_REALM))
         .pipe(replace('your-app-name', process.env.OA2_APP_NAME))
-        .pipe(gulp.dest('./dist/'))
+        .pipe(gulp.dest('./dist/', {overwrite: true}))
 
 });
+
 gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
 });
-gulp.task('build', ['dist', 'copy', 'environment-variables'])
+gulp.task('build', ['dist', 'copy']); //, 'environment-variables']);
