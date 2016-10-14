@@ -179,8 +179,9 @@ gulp.task('environment-variables', ['dist', 'copy'], function () {
         .pipe(gulp.dest('./dist/', {overwrite: true}))
 
 });
-gulp.task('default', ['dist', 'copy', 'environment-variables']);
+gulp.task('default', ['dist', 'copy']);
 gulp.task('serve', ['connect', 'watch']);
 gulp.task('dev', ['default'], function () {
   gulp.start('serve');
 });
+gulp.task('build', ['dist', 'copy', 'environment-variables'])
