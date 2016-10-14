@@ -13,9 +13,9 @@ var connect = require('gulp-connect');
 var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
-var pkg = require('./package.json');
 var replace = require('gulp-replace');
-//var dotenv = require('dotenv').config();
+var dotenv = require('dotenv').config();
+var pkg = require('./package.json');
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -176,7 +176,7 @@ gulp.task('environment-variables', ['dist', 'copy'], function () {
         .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
         .pipe(replace('your-realms', process.env.OA2_REALM))
         .pipe(replace('your-app-name', process.env.OA2_APP_NAME))
-        .pipe(gulp.dest('./dist/', {overwrite: true}))
+        .pipe(gulp.dest('./dist/'))
 
 });
 gulp.task('default', ['dist', 'copy']);
