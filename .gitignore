@@ -16,4 +16,5 @@ node_modules/*
 dist/*
 test/specs/local/
 !/dist/.keep
+/vendor/
 /.env
