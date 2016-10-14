@@ -14,7 +14,7 @@ var header = require('gulp-header');
 var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var replace = require('gulp-replace');
-var util = require('gulp-util');
+var gutil = require('gulp-util');
 var dotenv = require('dotenv').config();
 var pkg = require('./package.json');
 
@@ -113,9 +113,21 @@ function _copy() {
     .pipe(gulp.dest('./dist/lang'))
     .on('error', log);
 
+    gutil.log('apidocs-endpoint: ' + process.env.APIDOCS_ENDPOINT)
+    gutil.log('oauth2-client-id: ' + process.env.OA2_CLIENT_ID)
+    gutil.log('oauth2-client-secret: ' + process.env.OA2_CLIENT_SECRET)
+    gutil.log('oauth2-realm: ' + process.env.OA2_REALM)
+    gutil.log('oauth2-app-name: ' + process.env.OA2_APP_NAME)
+
   // copy all files inside html folder
   gulp
     .src(['./src/main/html/**/*'])
+      .pipe(replace('http://petstore.swagger.io/v2/swagger.json', process.env.APIDOCS_ENDPOINT))
+      .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
+      .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
+      .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
+      .pipe(replace('your-realms', process.env.OA2_REALM))
+      .pipe(replace('your-app-name', process.env.OA2_APP_NAME))
     .pipe(gulp.dest('./dist'))
     .on('error', log);
 }
@@ -169,10 +181,14 @@ gulp.task('handlebars', function () {
  * Replaces OAuth 2.0 parameters from environment variables.
  */
 gulp.task('environment-variables', ['dist', 'copy'], function () {
+    gutil.log('apidocs-endpoint: ', process.env.APIDOCS_ENDPOINT)
+    gutil.log('oauth2-client-id: ', process.env.OA2_CLIENT_ID)
+    gutil.log('oauth2-client-secret: ', process.env.OA2_CLIENT_SECRET)
+    gutil.log('oauth2-realm: ', process.env.OA2_REALM)
+    gutil.log('oauth2-app-name: ', process.env.OA2_APP_NAME)
     gulp
         .src(['./src/main/html/index.html'])
         .pipe(replace('http://petstore.swagger.io/v2/swagger.json', process.env.APIDOCS_ENDPOINT))
-        .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
         .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
         .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
         .pipe(replace('your-realms', process.env.OA2_REALM))
