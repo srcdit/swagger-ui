@@ -15,7 +15,7 @@ var order = require('gulp-order');
 var jshint = require('gulp-jshint');
 var pkg = require('./package.json');
 var replace = require('gulp-replace');
-var dotenv = require('dotenv').config();
+//var dotenv = require('dotenv').config();
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
