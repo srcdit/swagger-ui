@@ -121,12 +121,18 @@ function _copy() {
 
   // copy all files inside html folder
   gulp
-    .src(['./src/main/html/**/*'])
-      .pipe(replace('http://petstore.swagger.io/v2/swagger.json', process.env.APIDOCS_ENDPOINT))
-      .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
-      .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
-      .pipe(replace('your-realms', process.env.OA2_REALM))
-      .pipe(replace('your-app-name', process.env.OA2_APP_NAME))
+    .src(['./src/main/html/**/*', '!./src/main/html/**/*.html'])
+    .pipe(gulp.dest('./dist'))
+    .on('error', log);
+
+  // replace placeholders in html files and copy those too
+  gulp
+    .src(['./src/main/html/**/*.html'])
+    .pipe(replace('http://petstore.swagger.io/v2/swagger.json', process.env.APIDOCS_ENDPOINT))
+    .pipe(replace('your-client-id', process.env.OA2_CLIENT_ID))
+    .pipe(replace('your-client-secret-if-required', process.env.OA2_CLIENT_SECRET))
+    .pipe(replace('your-realms', process.env.OA2_REALM))
+    .pipe(replace('your-app-name', process.env.OA2_APP_NAME))
     .pipe(gulp.dest('./dist'))
     .on('error', log);
 }
